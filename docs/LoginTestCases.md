@@ -93,8 +93,6 @@ P1 - Alto
 
 Sí
 
----
-
 ## CP-LOGIN-004 - Campos obligatorios vacíos
 
 ### Objetivo
@@ -123,8 +121,6 @@ P2 - Medio
 ### Automatización
 
 Sí
-
----
 
 ## CP-LOGIN-005 - Formato de email inválido
 

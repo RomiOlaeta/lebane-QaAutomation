@@ -135,36 +135,7 @@ P1 - Alto
 
 Sí
 
-## CP-PROY-005 - Validar generación de lista de precios inicial
-
-### Objetivo
-
-Validar que al crear un proyecto se genere automáticamente una lista de precios inicial.
-
-### Prioridad
-
-P0 - Crítico
-
-### Precondiciones
-
-* Usuario autenticado en la aplicación.
-* Proyecto creado correctamente.
-
-### Pasos
-
-1. Crear un nuevo proyecto.
-2. Ingresar al proyecto creado.
-3. Acceder a la sección de unidades/lista de precios.
-
-### Resultado esperado
-
-* Se visualiza una lista de precios inicial asociada al proyecto.
-
-### Automatización
-
-Sí
-
-## CP-PROY-006 - Validar carga de logo del proyecto
+## CP-PROY-005 - Validar carga de logo del proyecto
 
 ### Objetivo
 
@@ -195,7 +166,7 @@ P2 - Medio
 
 No
 
-## CP-PROY-007 - Validar dependencia entre país, estado y ciudad
+## CP-PROY-006 - Validar dependencia entre país, estado y ciudad
 
 ### Objetivo
 
@@ -229,7 +200,7 @@ P1 - Alto
 
 Sí
 
-## CP-PROY-008 - Validar mensaje al ingresar moneda inexistente
+## CP-PROY-007 - Validar mensaje al ingresar moneda inexistente
 
 ### Objetivo
 
@@ -259,7 +230,7 @@ P2 - Medio
 
 Sí
 
-## CP-PROY-009 - Validar autocompletado del tipo de cambio
+## CP-PROY-008 - Validar autocompletado del tipo de cambio
 
 ### Objetivo
 
@@ -290,7 +261,7 @@ P1 - Alto
 
 Sí
 
-## CP-PROY-010 - Visualización de campos adicionales al seleccionar Razón Social
+## CP-PROY-09 - Visualización de campos adicionales al seleccionar Razón Social
 
 ### Objetivo
 
@@ -326,7 +297,7 @@ P1 - Alto
 
 Sí
 
-## CP-PROY-011 - Validar obligatoriedad de campos de Razón Social
+## CP-PROY-010 - Validar obligatoriedad de campos de Razón Social
 
 ### Objetivo
 
@@ -357,7 +328,7 @@ P1 - Alto
 
 Sí
 
-## CP-PROY-012 - Validar navegación mediante botón "Volver"
+## CP-PROY-011 - Validar navegación mediante botón "Volver"
 
 ### Objetivo
 
@@ -387,7 +358,7 @@ P2 - Medio
 ### Automatización
 
 Sí
-## CP-PROY-013 - Validar visualización del nombre del proyecto creado
+## CP-PROY-012 - Validar visualización del nombre del proyecto creado
 
 ### Objetivo
 
@@ -417,7 +388,7 @@ P0 - Crítico
 
 Sí
 
-## CP-PROY-014 - Acceder a la sección Unidades desde el proyecto
+## CP-PROY-013 - Acceder a la sección Unidades desde el proyecto
 
 ### Objetivo
 
