@@ -1,6 +1,7 @@
 import { Page } from '@playwright/test';
 import { ProjectLocators } from './ProjectLocators';
 
+
 export class ProjectScreen {
   constructor(private page: Page) {}
 
@@ -98,9 +99,12 @@ async enterEndDate(date: string) {
   await option.click();
 }
   async clickRegister() {
-    await this.page.locator(ProjectLocators.registerButton).click();
-  }
+  await this.page.locator(ProjectLocators.registerButton).click();
 
+  await this.page.waitForURL(/\/proyecto\/\d+$/, {
+    timeout: 30000,
+  });
+}
   async createProject(projectData: {
     name: string;
     currency: string;
@@ -140,16 +144,21 @@ async clickBack() {
 }
 
 async navigateToUnits() {
-  const commercialButton = this.page
-    .locator('li:has-text("Comercial") button')
-    .last();
+  await this.page
+    .getByRole('button', { name: 'Comercial' })
+    .last()
+    .click();
 
-  await commercialButton.click({ force: true });
+  await this.page
+    .locator('li[role="menuitem"]:has-text("Unidades")')
+    .click();
 
-  const unitsOption = this.page
-    .locator('//span[normalize-space()="Unidades"]')
-    .last();
+  await this.page.waitForURL(/.*\/proyecto\/\d+\/areas/, {
+    timeout: 30000,
+  });
 
-  await unitsOption.evaluate((element: HTMLElement) => element.click());
+  await this.page
+    .getByRole('button', { name: 'Guardar' })
+    .waitFor({ state: 'visible', timeout: 30000 });
 }
 }

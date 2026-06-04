@@ -24,9 +24,8 @@ export const ProjectLocators = {
   registerButton: 'button:has-text("Registrar")',
   exchangeRateInput: 'input[name="tipoDeCambio"]',
   backButton: 'button:has-text("Volver")',
-  unitsMenuOption: 'a[href*="/areas"]',
-  commercialOption: 'li:has-text("Comercial") button',
-  unitsMenu: '//span[normalize-space()="Unidades"]',
+  commercialOption: 'use[href*="#comercial"], use[xlink\\:href*="#comercial"]',
+  unitsMenuOption: 'li[role="menuitem"] span:text-is("Unidades")',
   commercialExpandButton:'[xlink\\:href*="doubleArrowRight"]',
 
 };
