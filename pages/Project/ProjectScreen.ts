@@ -20,10 +20,22 @@ export class ProjectScreen {
     await this.page.locator(ProjectLocators.nameProject).fill(projectName);
   }
 
-  async selectCurrency(currency: string) {
-    await this.page.locator(ProjectLocators.currencyDropdown).click();
-    await this.page.getByText(currency, { exact: true }).click();
-  }
+ async selectAutocompleteOption(locator: string, value: string) {
+  const input = this.page.locator(locator);
+
+  await input.click();
+  await input.fill(value);
+
+  await this.page
+    .locator('li[role="option"]')
+    .filter({ hasText: value })
+    .first()
+    .click();
+}
+
+async selectCurrency(currency: string) {
+  await this.selectAutocompleteOption(ProjectLocators.currencyDropdown, currency);
+}
 
   async clickDefineAutomatically() {
   const checkbox = this.page.locator(ProjectLocators.defineAutomatically);
@@ -118,4 +130,26 @@ async enterEndDate(date: string) {
     await this.enterCompany(projectData.company);
     await this.clickRegister();
   }
+
+  async getExchangeRateValue() {
+  return await this.page.locator(ProjectLocators.exchangeRateInput).inputValue();
+}
+
+async clickBack() {
+  await this.page.locator(ProjectLocators.backButton).click();
+}
+
+async navigateToUnits() {
+  const commercialButton = this.page
+    .locator('li:has-text("Comercial") button')
+    .last();
+
+  await commercialButton.click({ force: true });
+
+  const unitsOption = this.page
+    .locator('//span[normalize-space()="Unidades"]')
+    .last();
+
+  await unitsOption.evaluate((element: HTMLElement) => element.click());
+}
 }

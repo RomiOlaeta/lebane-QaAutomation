@@ -20,7 +20,13 @@ export const ProjectLocators = {
   descriptionLabel: 'text=Descripción',
   registrationDateLabel: 'text=Fecha de registro *',
   documentTypeLabel: 'text=Tipo de documento *',
-  cuitNumberLabel: 'text=Número de CUIT *',
+  cuitNumberLabel: 'label:has-text("Número de documento")',
   registerButton: 'button:has-text("Registrar")',
+  exchangeRateInput: 'input[name="tipoDeCambio"]',
+  backButton: 'button:has-text("Volver")',
+  unitsMenuOption: 'a[href*="/areas"]',
+  commercialOption: 'li:has-text("Comercial") button',
+  unitsMenu: '//span[normalize-space()="Unidades"]',
+  commercialExpandButton:'[xlink\\:href*="doubleArrowRight"]',
 
 };

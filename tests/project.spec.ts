@@ -8,7 +8,7 @@ import { ProjectLocators } from '../pages/Project/ProjectLocators';
  */
 
 const projectData = {
-  name: `Proyecto QA`,
+  name: `Proyecto QA - ${Math.floor(Math.random() * 1000)}`,
   currency: 'ARS',
   country: 'Argentina',
   state: 'Buenos Aires',
@@ -133,5 +133,89 @@ test(
     await expect(
       page.getByText('No se encontraron opciones disponibles')
     ).toBeVisible();
+  }
+);
+
+test(
+  '[P1] [CP-PROY-008] Validar autocompletado del tipo de cambio #project #positive #regression',
+  async ({ page }) => {
+    const projectPage = new ProjectScreen(page);
+
+    await projectPage.clickAddProject();
+    await projectPage.selectCurrency(projectData.currency);
+    await projectPage.clickDefineAutomatically();
+
+    const exchangeRateValue = await projectPage.getExchangeRateValue();
+
+    expect(exchangeRateValue).not.toBe('ARS');
+  }
+);
+
+test(
+  '[P1] [CP-PROY-009] Visualización de campos adicionales al seleccionar Razón Social #project #positive #regression',
+  async ({ page }) => {
+    const projectPage = new ProjectScreen(page);
+
+    await projectPage.clickAddProject();
+    await projectPage.enterCompany(projectData.company);
+
+    await expect(page.locator(ProjectLocators.companyNameLabel)).toBeVisible();
+    await expect(page.locator(ProjectLocators.descriptionLabel)).toBeVisible();
+    await expect(page.locator(ProjectLocators.registrationDateLabel)).toBeVisible();
+    await expect(page.locator(ProjectLocators.documentTypeLabel)).toBeVisible();
+    await expect(page.locator(ProjectLocators.cuitNumberLabel)).toBeVisible();
+  }
+);
+
+test(
+  '[P1] [CP-PROY-010] Validar obligatoriedad de campos de Razón Social #project #negative #regression',
+  async ({ page }) => {
+    const projectPage = new ProjectScreen(page);
+
+    await projectPage.clickAddProject();
+    await projectPage.enterCompany(projectData.company);
+
+    await expect(page.locator(ProjectLocators.registerButton).last()).toBeDisabled();
+  }
+);
+
+test(
+  '[P2] [CP-PROY-011] Validar navegación mediante botón Volver #project #regression',
+  async ({ page }) => {
+    const projectPage = new ProjectScreen(page);
+
+    await projectPage.clickAddProject();
+    await projectPage.enterProjectName('Proyecto sin guardar');
+    await projectPage.clickBack();
+
+    await expect(
+      page.locator(ProjectLocators.addProjectButton).first()
+    ).toBeVisible();
+  }
+);
+
+test(
+  '[P0] [CP-PROY-012] Validar visualización del nombre del proyecto creado #project #positive #regression',
+  async ({ page }) => {
+    const projectPage = new ProjectScreen(page);
+
+    await projectPage.clickAddProject();
+    await projectPage.createProject(projectData);
+
+    await expect(page.getByText(projectData.name)).toBeVisible();
+  }
+);
+
+test(
+  '[P0] [CP-PROY-013] Acceder a la sección Unidades desde el proyecto #project #smoke #regression',
+  async ({ page }) => {
+    const projectPage = new ProjectScreen(page);
+
+    await projectPage.clickAddProject();
+    await projectPage.createProject(projectData);
+
+    await projectPage.navigateToUnits();
+
+    await expect(page).toHaveURL(/.*\/areas/);
   }
 );
