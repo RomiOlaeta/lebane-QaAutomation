@@ -6,22 +6,24 @@ import { ProjectLocators } from '../pages/Project/ProjectLocators';
 /**
  * Author: Romina Olaeta
  */
-
-const projectData = {
-  name: `Proyecto QA - ${Math.floor(Math.random() * 1000)}`,
-  currency: 'ARS',
-  country: 'Argentina',
-  state: 'Buenos Aires',
-  city: 'La Plata',
-  street: 'Arriola',
-  number: '2500',
-  startDate: '03/06/2026',
-  endDate: '03/12/2026',
-  constructionType: 'Casa',
-  adjustmentMode: 'Provisorio',
-  company: `CRIBA S.A.`,
-};
-
+function createProjectData() {
+  return {
+    name: `Proyecto QA ${Date.now()}-${Math.random()
+      .toString(36)
+      .substring(2, 8)}`,
+    currency: 'ARS',
+    country: 'Argentina',
+    state: 'Buenos Aires',
+    city: 'La Plata',
+    street: 'Arriola',
+    number: '2500',
+    startDate: '03/06/2026',
+    endDate: '03/12/2026',
+    constructionType: 'Casa',
+    adjustmentMode: 'Provisorio',
+    company: 'CRIBA S.A.',
+  };
+}
 test.beforeEach(async ({ page }) => {
   const loginPage = new LoginScreen(page);
 
@@ -64,10 +66,14 @@ test(
   async ({ page }) => {
     const projectPage = new ProjectScreen(page);
 
+    const projectData = createProjectData();
+
     await projectPage.clickAddProject();
     await projectPage.createProject(projectData);
 
-    await expect(page.getByText(projectData.name)).toBeVisible();
+    await expect(
+      page.getByText(projectData.name)
+    ).toBeVisible();
   }
 );
 
@@ -106,7 +112,9 @@ test(
 test(
   '[P1] [CP-PROY-006] Validar dependencia entre país, estado y ciudad #project #negative #regression',
   async ({ page }) => {
+  
     const projectPage = new ProjectScreen(page);
+    const projectData = createProjectData();
 
     await projectPage.clickAddProject();
 
@@ -140,6 +148,7 @@ test(
   '[P1] [CP-PROY-008] Validar autocompletado del tipo de cambio #project #positive #regression',
   async ({ page }) => {
     const projectPage = new ProjectScreen(page);
+     const projectData = createProjectData();
 
     await projectPage.clickAddProject();
     await projectPage.selectCurrency(projectData.currency);
@@ -155,6 +164,7 @@ test(
   '[P1] [CP-PROY-009] Visualización de campos adicionales al seleccionar Razón Social #project #positive #regression',
   async ({ page }) => {
     const projectPage = new ProjectScreen(page);
+     const projectData = createProjectData();
 
     await projectPage.clickAddProject();
     await projectPage.enterCompany(projectData.company);
@@ -171,6 +181,7 @@ test(
   '[P1] [CP-PROY-010] Validar obligatoriedad de campos de Razón Social #project #negative #regression',
   async ({ page }) => {
     const projectPage = new ProjectScreen(page);
+     const projectData = createProjectData();
 
     await projectPage.clickAddProject();
     await projectPage.enterCompany(projectData.company);
@@ -198,6 +209,7 @@ test(
   '[P0] [CP-PROY-012] Validar visualización del nombre del proyecto creado #project #positive #regression',
   async ({ page }) => {
     const projectPage = new ProjectScreen(page);
+     const projectData = createProjectData();
 
     await projectPage.clickAddProject();
     await projectPage.createProject(projectData);
@@ -210,6 +222,7 @@ test(
   '[P0] [CP-PROY-013] Acceder a la sección Unidades desde el proyecto #project #smoke #regression',
   async ({ page }) => {
     const projectPage = new ProjectScreen(page);
+     const projectData = createProjectData();
 
     await projectPage.clickAddProject();
     await projectPage.createProject(projectData);
