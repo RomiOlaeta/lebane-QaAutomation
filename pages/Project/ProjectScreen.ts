@@ -99,12 +99,11 @@ async enterEndDate(date: string) {
   await option.click();
 }
   async clickRegister() {
-  await Promise.all([
-    this.page.waitForURL(/.*\/proyecto\/\d+.*/, {
-      timeout: 30000,
-    }),
-    this.page.locator(ProjectLocators.registerButton).click(),
-  ]);
+  await this.page.locator(ProjectLocators.registerButton).click();
+
+  await this.page
+    .getByText('Comienza a operar tu proyecto')
+    .waitFor({ state: 'visible', timeout: 45000 });
 }
   async createProject(projectData: {
     name: string;

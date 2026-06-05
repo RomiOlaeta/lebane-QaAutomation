@@ -59,8 +59,6 @@ test.beforeEach(async ({ page }) => {
 
   await projectPage.clickAddProject();
 
-  console.log('PROJECT NAME:', projectData.name);
-
   await projectPage.createProject(projectData);
 
   await expect(page).toHaveURL(/\/proyecto\/\d+$/, {
