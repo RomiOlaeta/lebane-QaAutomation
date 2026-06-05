@@ -21,17 +21,14 @@ export class ProjectScreen {
     await this.page.locator(ProjectLocators.nameProject).fill(projectName);
   }
 
- async selectAutocompleteOption(locator: string, value: string) {
+async selectAutocompleteOption(locator: string, value: string) {
   const input = this.page.locator(locator);
 
   await input.click();
   await input.fill(value);
 
-  await this.page
-    .locator('li[role="option"]')
-    .filter({ hasText: value })
-    .first()
-    .click();
+  await input.press('ArrowDown');
+  await input.press('Enter');
 }
 
 async selectCurrency(currency: string) {
@@ -97,13 +94,17 @@ async enterEndDate(date: string) {
 
   await option.waitFor();
   await option.click();
+  console.log(
+  await this.page.locator(ProjectLocators.currencyDropdown).inputValue()
+);
 }
-  async clickRegister() {
+  async clickRegister(projectName: string) {
   await this.page.locator(ProjectLocators.registerButton).click();
 
   await this.page
-    .getByText('Comienza a operar tu proyecto')
-    .waitFor({ state: 'visible', timeout: 45000 });
+  .getByText(projectName, { exact: true })
+  .first()
+  .waitFor({ state: 'visible', timeout: 60000 });
 }
   async createProject(projectData: {
     name: string;
@@ -132,7 +133,7 @@ async enterEndDate(date: string) {
     await this.selectConstructionType(projectData.constructionType);
     await this.selectAdjustmentMode(projectData.adjustmentMode);
     await this.enterCompany(projectData.company);
-    await this.clickRegister();
+    await this.clickRegister(projectData.name);
   }
 
   async getExchangeRateValue() {
@@ -144,21 +145,36 @@ async clickBack() {
 }
 
 async navigateToUnits() {
-  await this.page
-    .getByRole('button', { name: 'Comercial' })
-    .last()
-    .click();
+  await this.switchToCentralUser();
 
-  await this.page
-    .locator('li[role="menuitem"]:has-text("Unidades")')
-    .click();
-
-  await this.page.waitForURL(/.*\/proyecto\/\d+\/areas/, {
-    timeout: 30000,
+  const unitsButton = this.page.getByRole('button', {
+    name: 'Unidades',
+    exact: true,
   });
 
+  await unitsButton.waitFor({ state: 'visible', timeout: 10000 });
+  await unitsButton.click();
+
+  await this.page.waitForURL(/.*\/inmobiliaria\/unidades/, {
+    timeout: 30000,
+  });
+}
+async switchToCentralUser() {
+  const centralButton = this.page.getByRole('button', {
+    name: 'CEN',
+    exact: true,
+  });
+
+  if (await centralButton.isVisible()) {
+    return;
+  }
+
   await this.page
-    .getByRole('button', { name: 'Guardar' })
-    .waitFor({ state: 'visible', timeout: 30000 });
+    .getByRole('button', { name: 'PRO', exact: true })
+    .click();
+
+  await this.page
+    .locator('li[role="menuitem"]:has-text("Central")')
+    .click();
 }
 }

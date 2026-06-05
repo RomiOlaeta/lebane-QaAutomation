@@ -24,23 +24,13 @@ function createProjectData() {
 }
 
 const unitData = {
-  pricePerSquareMeter: '1500',
-  expectedProfit: '20',
-  floors: '10',
-  basements: '2',
-  typology: 'Monoambiente',
-  unitsPerFloor: '4',
-  parkingSpaces: '20',
-  unitSubstate: 'Disponible',
-  plan: 'Plano QA',
-  render: 'Render QA',
-  presentation: 'Presentación QA',
-  video: 'Video QA',
-  modelContract: 'Boleto QA',
-  streetView: 'https://www.google.com/maps',
-  googleMaps: 'https://www.google.com/maps',
-  pointOfInterest: 'Cerca del centro',
-  priceListVersion: 'Lista QA',
+  number: `101-${Date.now()}`,
+  priceSale: '150000',
+  coveredMeters: '40',
+  semiCoveredMeters: '5',
+  uncoveredMeters: '10',
+  commonMeters: '3',
+  description: 'Departamento QA automatizado',
 };
 
 test.beforeEach(async ({ page }) => {
@@ -61,29 +51,44 @@ test.beforeEach(async ({ page }) => {
 
   await projectPage.createProject(projectData);
 
-  await expect(page).toHaveURL(/\/proyecto\/\d+$/, {
-    timeout: 30000,
-  });
+  await expect(
+  page.getByText(projectData.name, { exact: true }).first()
+).toBeVisible({ timeout: 60000 });
 
   await projectPage.navigateToUnits();
+
+  await expect(
+    page.getByRole('button', { name: 'Agregar unidad' })
+  ).toBeVisible({ timeout: 30000 });
 });
+
 test(
   '[P0] [CP-UNIT-001] Validar campos obligatorios vacíos #units #negative #regression',
   async ({ page }) => {
-    const unitsPage = new UnitsScreen(page);
+    await page.getByRole('button', { name: 'Agregar unidad' }).click();
 
-    await unitsPage.clickSave();
+    const modal = page.getByRole('dialog');
 
-    await expect(
-      page.locator(UnitsLocators.saveButton)
-    ).toBeVisible();
+    await expect(modal).toBeVisible();
+
+    await modal.getByRole('button', { name: 'Agregar' }).click();
+
+    await expect(modal.getByText('Número *')).toBeVisible();
+    await expect(modal.getByText('Tipo *')).toBeVisible();
+    await expect(modal.getByText('Oficinas *')).toBeVisible();
   }
 );
 
 test(
-  '[P0] [CP-UNIT-002] Guardar configuración de unidades exitosamente #units #positive #regression',
+  '[P0] [CP-UNIT-002] Guardar configuración de unidad exitosamente #units #positive #regression',
   async ({ page }) => {
     const unitsPage = new UnitsScreen(page);
+
+    await unitsPage.clickAddUnit();
+
+    const modal = page.getByRole('dialog');
+
+    await expect(modal).toBeVisible();
 
     await unitsPage.completeRequiredFields(unitData);
 
@@ -100,23 +105,21 @@ test(
   async ({ page }) => {
     const unitsPage = new UnitsScreen(page);
 
-    await unitsPage.enterPricePerSquareMeter('abc');
-    await unitsPage.enterExpectedProfit('abc');
-    await unitsPage.enterFloors('abc');
-    await unitsPage.enterBasements('abc');
-    await unitsPage.enterUnitsPerFloor('abc');
-    await unitsPage.enterParkingSpaces('abc');
+    await unitsPage.clickAddUnit();
+
+    const modal = page.getByRole('dialog');
+
+    await expect(modal).toBeVisible();
+
+    await unitsPage.enterSalePrice('abc');
+    await unitsPage.enterCoveredMeters('abc');
 
     await expect(
-      page.locator(UnitsLocators.pricePerSquareMeterBox)
+      modal.getByText('Precio Venta *').locator('..').getByRole('textbox')
     ).toHaveValue('');
 
     await expect(
-      page.locator(UnitsLocators.expectedProfitBox)
-    ).toHaveValue('');
-
-    await expect(
-      page.locator(UnitsLocators.floorsBox)
+      modal.getByText('Metros cubiertos').locator('..').getByRole('textbox')
     ).toHaveValue('');
   }
 );
@@ -124,19 +127,23 @@ test(
 test(
   '[P1] [CP-UNIT-004] Validar moneda ingresada #units #positive #regression',
   async ({ page }) => {
-    await expect(
-      page.locator(UnitsLocators.currencyDropdown)
-    ).toHaveValue('ARS');
+    await page.getByRole('button', { name: 'Agregar unidad' }).click();
+
+    const modal = page.getByRole('dialog');
+
+    await expect(modal).toBeVisible();
 
     await expect(
-      page.locator(UnitsLocators.currencyDropdown)
-    ).toBeDisabled();
+      modal.getByText('Moneda *')
+    ).toBeVisible();
+
+    await expect(
+      modal.getByRole('combobox', { name: 'Seleccionar' }).first()
+    ).toBeVisible();
   }
 );
 
 test.skip(
   '[P2] [CP-UNIT-005] Validar botón de cruz para borrar campos opcionales #units #regression',
-  async ({ page }) => {
-   
-  }
+  async ({ page }) => {}
 );

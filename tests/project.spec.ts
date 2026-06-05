@@ -74,6 +74,10 @@ test(
     await projectPage.clickAddProject();
     await projectPage.createProject(projectData);
 
+    await projectPage.switchToCentralUser();
+
+    await projectPage.navigateToUnits();
+
     await expect(
       page.getByText(projectData.name)
     ).toBeVisible();
@@ -229,6 +233,7 @@ test(
 
     await projectPage.clickAddProject();
     await projectPage.createProject(projectData);
+    await projectPage.switchToCentralUser()
 
     await projectPage.navigateToUnits();
 

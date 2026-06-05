@@ -25,7 +25,9 @@ export const ProjectLocators = {
   exchangeRateInput: 'input[name="tipoDeCambio"]',
   backButton: 'button:has-text("Volver")',
   commercialOption: 'use[href*="#comercial"], use[xlink\\:href*="#comercial"]',
-  unitsMenuOption: 'li[role="menuitem"] span:text-is("Unidades")',
+  unitsMenuOption: 'svg[data-cy="sidebar-unidades"]',
   commercialExpandButton:'[xlink\\:href*="doubleArrowRight"]',
+  organizationButton: 'header button:has-text("PRO")',
+  centralOption: 'li[role="menuitem"]:has-text("Central")',
 
 };
