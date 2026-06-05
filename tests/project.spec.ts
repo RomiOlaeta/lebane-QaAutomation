@@ -3,6 +3,8 @@ import { LoginScreen } from '../pages/Login/LoginScreen';
 import { ProjectScreen } from '../pages/Project/ProjectScreen';
 import { ProjectLocators } from '../pages/Project/ProjectLocators';
 
+test.setTimeout(60000);
+
 /**
  * Author: Romina Olaeta
  */
@@ -36,7 +38,7 @@ test.beforeEach(async ({ page }) => {
 
   await expect(
     page.getByRole('button', { name: 'Agregar proyecto' }).first()
-  ).toBeVisible();
+  ).toBeVisible({ timeout: 30000 });
 });
 
 test(

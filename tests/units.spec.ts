@@ -6,20 +6,22 @@ import { UnitsLocators } from '../pages/Units/UnitsLocators';
 
 test.setTimeout(60000);
 
-const projectData = {
-  name: `Proyecto QA - ${Date.now()}-${Math.floor(Math.random() * 1000)}`,
-  currency: 'ARS',
-  country: 'Argentina',
-  state: 'Buenos Aires',
-  city: 'La Plata',
-  street: 'Arriola',
-  number: '2500',
-  startDate: '03/06/2026',
-  endDate: '03/12/2026',
-  constructionType: 'Casa',
-  adjustmentMode: 'Provisorio',
-  company: 'CRIBA S.A.',
-};
+function createProjectData() {
+  return {
+    name: `Proyecto QA - ${Date.now()}-${Math.floor(Math.random() * 100000)}`,
+    currency: 'ARS',
+    country: 'Argentina',
+    state: 'Buenos Aires',
+    city: 'La Plata',
+    street: 'Arriola',
+    number: '2500',
+    startDate: '03/06/2026',
+    endDate: '03/12/2026',
+    constructionType: 'Casa',
+    adjustmentMode: 'Provisorio',
+    company: 'CRIBA S.A.',
+  };
+}
 
 const unitData = {
   pricePerSquareMeter: '1500',
@@ -42,8 +44,9 @@ const unitData = {
 };
 
 test.beforeEach(async ({ page }) => {
+  const projectData = createProjectData();
+
   const loginPage = new LoginScreen(page);
-  
 
   await loginPage.navigate();
 
@@ -55,6 +58,9 @@ test.beforeEach(async ({ page }) => {
   const projectPage = new ProjectScreen(page);
 
   await projectPage.clickAddProject();
+
+  console.log('PROJECT NAME:', projectData.name);
+
   await projectPage.createProject(projectData);
 
   await expect(page).toHaveURL(/\/proyecto\/\d+$/, {
@@ -63,7 +69,6 @@ test.beforeEach(async ({ page }) => {
 
   await projectPage.navigateToUnits();
 });
-
 test(
   '[P0] [CP-UNIT-001] Validar campos obligatorios vacíos #units #negative #regression',
   async ({ page }) => {
