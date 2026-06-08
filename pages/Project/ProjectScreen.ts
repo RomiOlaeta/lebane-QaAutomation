@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test';
+import { Page, expect } from '@playwright/test';
 import { ProjectLocators } from './ProjectLocators';
 
 
@@ -98,13 +98,16 @@ async enterEndDate(date: string) {
   await this.page.locator(ProjectLocators.currencyDropdown).inputValue()
 );
 }
-  async clickRegister(projectName: string) {
-  await this.page.locator(ProjectLocators.registerButton).click();
+ async clickRegister(projectName?: string) {
+  await this.page.locator(ProjectLocators.registerButton).last().click();
 
-  await this.page
-  .getByText(projectName, { exact: true })
-  .first()
-  .waitFor({ state: 'visible', timeout: 60000 });
+  await expect(this.page).toHaveURL(/.*\/proyecto\/\d+/, {
+    timeout: 60000,
+  });
+
+  await expect(
+    this.page.getByText('Comienza a operar tu proyecto')
+  ).toBeVisible({ timeout: 60000 });
 }
   async createProject(projectData: {
     name: string;
