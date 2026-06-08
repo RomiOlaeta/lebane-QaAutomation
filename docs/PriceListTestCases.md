@@ -10,7 +10,7 @@ Casos de prueba relacionados con la gestión de listas de precios y unidades den
 
 ### Objetivo
 
-Validar que al crear un proyecto se genere automáticamente una lista de precios inicial.
+Validar que al crear un proyecto se genere automáticamente una lista de precios inicial, con o sin nombre especificado.
 
 ### Prioridad
 
@@ -23,55 +23,22 @@ P0 - Crítico
 ### Pasos
 
 1. Crear un nuevo proyecto.
-2. Acceder al proyecto creado.
-3. Ingresar a la sección de listas de precios.
+2. Completar los datos requeridos.
+3. Especificar o no un nombre para la lista de precios inicial.
+4. Acceder al proyecto creado.
+5. Ingresar a la sección de listas de precios.
 
 ### Resultado esperado
 
 - Se visualiza una lista de precios inicial asociada al proyecto.
+- La lista de precios se crea correctamente con nombre o sin nombre.
 
 ### Automatización
 
 Sí
-
 ---
 
-## CP-PRICE-002 - Crear unidad manualmente asociada a lista de precios
-
-### Objetivo
-
-Validar que el usuario pueda crear una unidad manualmente y que quede asociada a la lista de precios inicial.
-
-### Prioridad
-
-P0 - Crítico
-
-### Precondiciones
-
-- Usuario autenticado.
-- Proyecto creado.
-- Lista de precios inicial existente.
-
-### Pasos
-
-1. Acceder al proyecto.
-2. Ingresar a la sección de unidades.
-3. Presionar "Agregar unidad".
-4. Completar los campos obligatorios.
-5. Guardar la unidad.
-
-### Resultado esperado
-
-- La unidad se crea correctamente.
-- La unidad queda asociada a la lista de precios inicial.
-
-### Automatización
-
-Sí
-
----
-
-## CP-PRICE-003 - Modificar precio de unidad
+## CP-PRICE-002 - Modificar precio de unidad
 
 ### Objetivo
 
@@ -105,7 +72,7 @@ Sí
 
 ---
 
-## CP-PRICE-004 - Crear unidades mediante carga de template
+## CP-PRICE-003 - Crear unidades mediante carga de template
 
 ### Objetivo
 
@@ -141,7 +108,7 @@ Sí
 
 ---
 
-## CP-PRICE-005 - Eliminar unidad y validar comportamiento de la lista de precios
+## CP-PRICE-004 - Eliminar unidad y validar comportamiento de la lista de precios
 
 ### Objetivo
 
@@ -172,3 +139,4 @@ P0 - Crítico
 ### Automatización
 
 Sí
+

@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 import { LoginScreen } from '../pages/Login/LoginScreen';
 import { ProjectScreen } from '../pages/Project/ProjectScreen';
 import { ProjectLocators } from '../pages/Project/ProjectLocators';
+import { createProjectData, createUnitData } from '../data/testData';
 
 test.setTimeout(60000);
 
@@ -9,24 +10,6 @@ test.setTimeout(60000);
  * Author: Romina Olaeta
  */
 
-function createProjectData() {
-  return {
-    name: `Proyecto QA ${Date.now()}-${Math.random()
-      .toString(36)
-      .substring(2, 8)}`,
-    currency: 'ARS',
-    country: 'Argentina',
-    state: 'Buenos Aires',
-    city: 'La Plata',
-    street: 'Arriola',
-    number: '2500',
-    startDate: '03/06/2026',
-    endDate: '03/12/2026',
-    constructionType: 'Casa',
-    adjustmentMode: 'Provisorio',
-    company: 'CRIBA S.A.',
-  };
-}
 test.beforeEach(async ({ page }) => {
   const loginPage = new LoginScreen(page);
 
@@ -73,8 +56,6 @@ test(
 
     await projectPage.clickAddProject();
     await projectPage.createProject(projectData);
-
-    await projectPage.switchToCentralUser();
 
     await projectPage.navigateToUnits();
 
@@ -221,7 +202,9 @@ test(
     await projectPage.clickAddProject();
     await projectPage.createProject(projectData);
 
-    await expect(page.getByText(projectData.name)).toBeVisible();
+    await expect(
+  page.getByText(projectData.name, { exact: true }).first()
+).toBeVisible({ timeout: 10000 });
   }
 );
 
@@ -233,7 +216,6 @@ test(
 
     await projectPage.clickAddProject();
     await projectPage.createProject(projectData);
-    await projectPage.switchToCentralUser()
 
     await projectPage.navigateToUnits();
 

@@ -1,19 +1,20 @@
 export const UnitsLocators = {
-  addUnitButton: 'button:has-text("Agregar unidad")',
-  saveButton: 'button:has-text("Agregar")',
+  saveButton: 'button:has-text("Guardar")',
 
-  numberBox: 'input[placeholder="Ej: 101"]',
-  priceSaleBox: 'input[placeholder="0"]',
+  pricePerSquareMeterBox: 'input[name="precioListaMetroCuadrado"]',
+  expectedProfitBox: 'input[name="gananciaEsperada"]',
+  floorsBox: 'input[name="pisos"]',
+  basementsBox: 'input[name="subsuelos"]',
 
-  descriptionBox: 'textarea[placeholder="Ej: Departamento de 3 ambientes a estrenar..."]',
-  dateBox: 'input[placeholder="DD/MM/YYYY"]',
+  typologiesDropdown: '[data-cy="new-renderer-field-tipologias"]',
 
-  currencyDropdown: 'input[aria-label="Seleccionar"]',
-  statusDropdown: 'input[aria-label="Seleccionar"]',
-  typeDropdown: 'input[aria-label="Seleccionar"]',
+  unitsPerFloorBox: 'input[name="unidadesPorPiso"]',
+  parkingSpacesBox: 'input[name="cantidadCocheras"]',
 
-  coveredMetersBox: 'input[placeholder="0"]',
-  semiCoveredMetersBox: 'input[placeholder="0"]',
-  uncoveredMetersBox: 'input[placeholder="0"]',
-  commonMetersBox: 'input[placeholder="0"]',
+  streetViewBox: 'input[name="streetView"]',
+  googleMapsBox: 'input[name="googleMaps"]',
+
+  priceListVersionBox: 'input[name="versionListaPrecios"]',
+  currencyDropdown: 'input[data-cy="new-renderer-field-moneda"]',
+  
 };

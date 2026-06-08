@@ -145,36 +145,20 @@ async clickBack() {
 }
 
 async navigateToUnits() {
-  await this.switchToCentralUser();
+  await this.page
+    .getByRole('button', { name: 'Comercial' })
+    .first()
+    .click();
 
-  const unitsButton = this.page.getByRole('button', {
+  const unitsLink = this.page.getByRole('link', {
     name: 'Unidades',
-    exact: true,
   });
 
-  await unitsButton.waitFor({ state: 'visible', timeout: 10000 });
-  await unitsButton.click();
-
-  await this.page.waitForURL(/.*\/inmobiliaria\/unidades/, {
-    timeout: 30000,
-  });
-}
-async switchToCentralUser() {
-  const centralButton = this.page.getByRole('button', {
-    name: 'CEN',
-    exact: true,
+  await unitsLink.waitFor({
+    state: 'visible',
+    timeout: 10000,
   });
 
-  if (await centralButton.isVisible()) {
-    return;
-  }
-
-  await this.page
-    .getByRole('button', { name: 'PRO', exact: true })
-    .click();
-
-  await this.page
-    .locator('li[role="menuitem"]:has-text("Central")')
-    .click();
+  await unitsLink.click();
 }
 }
