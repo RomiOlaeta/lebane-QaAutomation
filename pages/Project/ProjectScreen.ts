@@ -24,11 +24,16 @@ export class ProjectScreen {
 async selectAutocompleteOption(locator: string, value: string) {
   const input = this.page.locator(locator);
 
+  await expect(input).toBeVisible({ timeout: 30000 });
   await input.click();
   await input.fill(value);
 
-  await input.press('ArrowDown');
-  await input.press('Enter');
+  const option = this.page.getByRole('option', { name: value }).first();
+
+  await expect(option).toBeVisible({ timeout: 30000 });
+  await option.click();
+
+  await expect(input).toHaveValue(value, { timeout: 10000 });
 }
 
 async selectCurrency(currency: string) {
