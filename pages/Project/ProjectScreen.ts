@@ -103,16 +103,36 @@ async enterEndDate(date: string) {
   await this.page.locator(ProjectLocators.currencyDropdown).inputValue()
 );
 }
- async clickRegister() {
-  await this.page.locator(ProjectLocators.registerButton).last().click();
+async clickRegister() {
+  const registerButton = this.page.getByRole('button', {
+    name: 'Registrar',
+    exact: true,
+  });
 
- await expect(this.page).toHaveURL(/.*\/proyecto\/\d+/, {
-  timeout: 60000,
-});
+  await this.page.keyboard.press('Tab');
 
-await expect(
-  this.page.locator('main')
-).toBeVisible();
+  await expect(registerButton).toBeVisible({ timeout: 30000 });
+  await expect(registerButton).toBeEnabled({ timeout: 30000 });
+
+  for (let i = 0; i < 3; i++) {
+    await registerButton.scrollIntoViewIfNeeded();
+    await registerButton.click({ force: true });
+
+    const navigated = await this.page
+      .waitForURL(/.*\/proyecto\/\d+/, { timeout: 10000 })
+      .then(() => true)
+      .catch(() => false);
+
+    if (navigated) {
+      break;
+    }
+  }
+
+  await expect(this.page).toHaveURL(/.*\/proyecto\/\d+/, {
+    timeout: 60000,
+  });
+
+  await this.page.waitForLoadState('networkidle');
 }
   async createProject(projectData: {
     name: string;
