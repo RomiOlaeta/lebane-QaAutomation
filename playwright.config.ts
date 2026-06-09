@@ -12,9 +12,11 @@ export default defineConfig({
   reporter: 'html',
 
   use: {
-  baseURL: process.env.BASE_URL || 'https://tst.lebane.app',
-  trace: 'on-first-retry',
-},
+    baseURL: process.env.BASE_URL || 'https://tst.lebane.app',
+    trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
+  },
 
   projects: [
     {
