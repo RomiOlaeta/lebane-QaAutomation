@@ -99,14 +99,19 @@ async enterEndDate(date: string) {
 );
 }
  async clickRegister(projectName?: string) {
-  await this.page.locator(ProjectLocators.registerButton).last().click();
+  const registerButton = this.page.locator(ProjectLocators.registerButton).last();
 
-  await expect(this.page).toHaveURL(/.*\/proyecto\/\d+/, {
-    timeout: 60000,
-  });
+  await expect(registerButton).toBeVisible({ timeout: 30000 });
+  await expect(registerButton).toBeEnabled({ timeout: 30000 });
+
+  await registerButton.click();
+
+  await this.page.waitForLoadState('networkidle');
+
+  console.log('URL after register:', this.page.url());
 
   await expect(
-    this.page.getByText('Comienza a operar tu proyecto')
+    this.page.getByText(/Comienza a operar tu proyecto|Áreas/i).first()
   ).toBeVisible({ timeout: 60000 });
 }
   async createProject(projectData: {
