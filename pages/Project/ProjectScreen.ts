@@ -98,21 +98,16 @@ async enterEndDate(date: string) {
   await this.page.locator(ProjectLocators.currencyDropdown).inputValue()
 );
 }
- async clickRegister(projectName?: string) {
-  const registerButton = this.page.locator(ProjectLocators.registerButton).last();
+ async clickRegister() {
+  await this.page.locator(ProjectLocators.registerButton).last().click();
 
-  await expect(registerButton).toBeVisible({ timeout: 30000 });
-  await expect(registerButton).toBeEnabled({ timeout: 30000 });
+ await expect(this.page).toHaveURL(/.*\/proyecto\/\d+/, {
+  timeout: 60000,
+});
 
-  await registerButton.click();
-
-  await this.page.waitForLoadState('networkidle');
-
-  console.log('URL after register:', this.page.url());
-
-  await expect(
-    this.page.getByText(/Comienza a operar tu proyecto|Áreas/i).first()
-  ).toBeVisible({ timeout: 60000 });
+await expect(
+  this.page.locator('main')
+).toBeVisible();
 }
   async createProject(projectData: {
     name: string;
@@ -141,7 +136,7 @@ async enterEndDate(date: string) {
     await this.selectConstructionType(projectData.constructionType);
     await this.selectAdjustmentMode(projectData.adjustmentMode);
     await this.enterCompany(projectData.company);
-    await this.clickRegister(projectData.name);
+    await this.clickRegister();
   }
 
   async getExchangeRateValue() {

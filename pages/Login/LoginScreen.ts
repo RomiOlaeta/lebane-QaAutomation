@@ -14,7 +14,7 @@ export class LoginScreen {
   }
 
   async enterPassword(password: string) {
-  console.log('PASSWORD VALUE:', password);
+
 
   await this.page.locator('input[type="password"]').click();
   await this.page.locator('input[type="password"]').fill(password);

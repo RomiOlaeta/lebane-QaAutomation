@@ -18,17 +18,22 @@ export class PriceListScreen {
     .getByRole('row')
     .filter({ has: this.page.getByText('101', { exact: true }) });
 
-  const priceCell = row101
-    .getByRole('cell')
-    .nth(12); 
+  const priceCell = row101.getByRole('cell').nth(12);
 
   await priceCell.scrollIntoViewIfNeeded();
-  await priceCell.click();
-  await priceCell.dblclick();
 
-  const priceInput = this.page.locator('input[placeholder="Valor..."]');
+  let priceInput = this.page.locator('input[placeholder="Valor..."]');
+
+  for (let i = 0; i < 3; i++) {
+    await priceCell.dblclick();
+
+    if (await priceInput.isVisible({ timeout: 3000 }).catch(() => false)) {
+      break;
+    }
+  }
 
   await expect(priceInput).toBeVisible({ timeout: 10000 });
+
   await priceInput.fill(newPrice);
   await priceInput.press('Enter');
 
